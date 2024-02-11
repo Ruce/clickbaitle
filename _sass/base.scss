@@ -16,7 +16,7 @@ body {
 .main {
 	max-width: 1200px;
 	width: 100%;
-	height: 100%;
+	height: 100dvh;
 }
 
 .top {
@@ -101,8 +101,8 @@ body {
   background: transparent;
 }
 
-.options {
-	padding: 1vh 0;
+.optionsContainer {
+	padding: 1.4vh 0;
 	box-sizing: border-box;
 	display: flex;
 	justify-content: center;
