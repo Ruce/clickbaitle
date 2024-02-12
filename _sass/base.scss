@@ -9,28 +9,26 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 100vh;
+	height: 100dvh;
 	margin: 0;
 }
 
 .main {
 	max-width: 1200px;
 	width: 100%;
-	height: 100dvh;
+	height: 100%;
 }
 
 .top {
 	width: 100%;
-	height: 10%;
-	font-size: 5vh;
+	height: 8%;
+	padding: 1vh;
+	font-size: 4.2vh;
 	font-weight: bold;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	/*
-	border-bottom: 1px solid grey;
 	box-sizing: border-box;
-	*/
 }
 
 .videoContainer, .playContainer {
@@ -41,15 +39,15 @@ body {
 }
 
 .videoContainer {
-	width: 30%;
-	padding: 3vh;
+	width: 28%;
+	padding: 0 2%;
 	box-sizing: border-box;
 	justify-content: flex-start;
 	align-items: flex-start; /* Align items to the left */
 }
 
 .playContainer {
-	width: 70%;
+	width: 72%;
 	justify-content: center;
 	align-items: center;
 	/*background-color: #fefbf8;*/
@@ -72,8 +70,13 @@ body {
 }
 
 .infoText {
-	font-size: 2.2vh;
-	padding: 0.4vh 0;
+	font-size: min(2vw, 18px);
+	padding: 0 0 1.6vh 0;
+}
+
+.infoHeader {
+	font-size: min(1.4vw, 14px);
+	font-weight: bold;
 }
 
 .board {
@@ -89,7 +92,7 @@ body {
 
 .boardTable td {
 	height: 9vh;
-	border: 1px solid grey;
+	border: 1px solid #f4f0ec;
 }
 
 /* Hide the default scrollbar */
@@ -109,17 +112,17 @@ body {
 	align-content: flex-start;
 	align-items: center;
 	flex-wrap: wrap;
+	user-select: none;
 }
 
 .token {
-	font-size: 2vh;
+	font-size: min(3.4vw, 2.2vh, 16px);
 	border: none;
-	border-radius: 20px;
+	border-radius: 30px;
 	background-color: white;
 	padding: 0.8vh 1.6vh;
-	margin: 0.8vh;
+	margin: min(1.2vw, 0.6vh);
 	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-	user-select: none;
 }
 
 .token:hover {
@@ -143,16 +146,27 @@ body {
 	}
 	
 	.videoContainer {
-		height: 20%;
+		height: 18%;
+		padding: 1vh;
 		flex-direction: row;
-		justify-content: center;
+		justify-content: left;
 	}
 	
 	.playContainer {
-		height: 75%;
+		height: 77%;
 	}
 	
 	.infoContainer{
 		margin: 0 2vh;
+	}
+
+	.infoText {
+		font-size: min(3.6vw, 1.9vh);
+		padding: 0 0 0.8vh 0;
+	}
+
+	.infoHeader {
+		font-size: min(2.8vw, 1.5vh);
+		font-weight: bold;
 	}
 }
