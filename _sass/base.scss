@@ -1,5 +1,7 @@
-$backgroundColor: #FCF8F4;
-$bodyColor: #000000;
+$backgroundColor: #F9F7F5;
+$lightColor: #D20000;
+$darkColor: #AF0000;
+$bodyColor: #D20000;
 $bodyFont: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
 
 body {
@@ -7,32 +9,73 @@ body {
 	color: $bodyColor;
 	font-family: $bodyFont;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	height: 100dvh;
 	margin: 0;
 }
 
-.main {
-	max-width: 1200px;
-	width: 100%;
-	height: 100%;
-}
-
 .top {
 	width: 100%;
-	height: 8%;
-	padding: 1vh;
-	font-size: 4.2vh;
-	font-weight: bold;
+	height: 9%;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	box-sizing: border-box;
 }
 
+.title {
+	width: 100%;
+	height: 75%;
+	font-size: 4.6vh;
+	font-weight: 900;
+	color: $darkColor;
+	font-family: Helvetica;
+	text-align: center;
+	border-bottom: 1px solid $darkColor;
+	box-sizing: border-box;
+	overflow: visible;
+}
+
+.ticker {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	height: 25%;
+	font-size: 1.4vh;
+	padding: 0 1vh;
+	border-bottom: 1px solid $darkColor;
+	box-sizing: border-box;
+	overflow: visible;
+}
+
+.issueNumber {
+	text-align: left;
+	width: 30%;
+}
+
+.description{
+	text-align: center;
+	width: 40%;
+}
+
+.date {
+	text-align: right;
+	width: 30%;
+}
+
+.main {
+	max-width: 1200px;
+	width: 100%;
+	height: 91%;
+	padding: 1.6vh 0;
+	box-sizing: border-box;
+}
+
 .videoContainer, .playContainer {
-	height: 90%;
+	height: 100%;
 	float: left;
 	display: flex;
 	flex-direction: column;
@@ -75,6 +118,7 @@ body {
 }
 
 .infoHeader {
+	color: $darkColor;
 	font-size: min(1.4vw, 14px);
 	font-weight: bold;
 }
@@ -83,6 +127,16 @@ body {
 	width: 100%;
 	flex-grow: 1;
 	overflow: auto;
+	box-sizing: border-box;
+}
+
+/* Hide the default scrollbar */
+.board::-webkit-scrollbar {
+	width: 0;
+}
+
+.board::-webkit-scrollbar-track {
+	background: transparent;
 }
 
 .boardTable {
@@ -91,21 +145,37 @@ body {
 }
 
 .boardTable td {
-	height: 9vh;
-	border: 1px solid #f4f0ec;
+	height: 8.8vh;
+	/*border: 1px solid #f4f0ec;*/
+	border: none;
+	text-align: center;
+	box-sizing: border-box;
 }
 
-/* Hide the default scrollbar */
-.board::-webkit-scrollbar {
-  width: 0;
+.roundCol {
+	width: 10%;
 }
 
-.board::-webkit-scrollbar-track {
-  background: transparent;
+.round {
+	color: $darkColor;
+	font-size: min(1.4vw, 14px);
+	font-weight: bold;
+}
+
+.slotCol {
+	width: 15%;
+}
+
+.slot {
+	content: "";
+	margin: auto;
+	width: 65%;
+	border-bottom: 1px solid $darkColor;
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
 .optionsContainer {
-	padding: 1.4vh 0;
+	padding: 1.6vh 0 0 0;
 	box-sizing: border-box;
 	display: flex;
 	justify-content: center;
@@ -116,10 +186,11 @@ body {
 }
 
 .token {
-	font-size: min(3.4vw, 2.2vh, 16px);
+	color: white;
+	font-size: min(3vw, 2.2vh, 16px);
 	border: none;
 	border-radius: 30px;
-	background-color: white;
+	background-color: $lightColor;
 	padding: 0.8vh 1.6vh;
 	margin: min(1.2vw, 0.6vh);
 	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
@@ -127,18 +198,65 @@ body {
 
 .token:hover {
 	cursor: pointer;
-	background-color: #fafafa;
+	background-color: $darkColor;
 }
 
 .token:active {
 	transform: translateY(2px);
 }
 
+.correct {
+	background-color: green;
+}
+
+.semiCorrect {
+	background-color: orange;
+}
+
+.wrong {
+	background-color: #646464;
+}
+
 @media screen and (max-width: 800px) {
 	.top {
 		height: 5%;
+		flex-direction: row;
 		justify-content: left;
-		font-size: 3vh;
+		border-bottom: 1px solid $darkColor;
+	}
+	
+	.title {
+		height: 100%;
+		font-size: 2.8vh;
+		padding: 0.4vh 2vw;
+		text-align: left;
+		border: none;
+	}
+	
+	.ticker {
+		height: 100%;
+		flex-grow: 1;
+		flex-direction: column;
+		padding: 0.4vh 2vw;
+		border: none;
+	}
+
+	.issueNumber {
+		width: 100%;
+		text-align: right;
+	}
+
+	.description{
+		display: none;
+	}
+
+	.date {
+		width: 100%;
+		text-align: right;
+	}
+	
+	.main {
+		height: 95%;
 	}
 	
 	.videoContainer, .playContainer {
@@ -146,14 +264,14 @@ body {
 	}
 	
 	.videoContainer {
-		height: 18%;
+		height: 20%;
 		padding: 1vh;
 		flex-direction: row;
 		justify-content: left;
 	}
 	
 	.playContainer {
-		height: 77%;
+		height: 80%;
 	}
 	
 	.infoContainer{
@@ -167,6 +285,9 @@ body {
 
 	.infoHeader {
 		font-size: min(2.8vw, 1.5vh);
-		font-weight: bold;
+	}
+	
+	.round {
+		font-size: min(2.8vw, 1.5vh);
 	}
 }
