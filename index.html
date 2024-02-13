@@ -2,24 +2,27 @@
 layout: default
 ---
 
-<div class="top">
-	<span class="title">CLICKBAITLE</span>
-	<div class="ticker"><span class="issueNumber">No. 25</span><span class="description">You won't believe the title of today's video!</span><span class="date">Sunday, February 11, 2024<span></div>
-</div>
+<script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+
 <div class="main">
-	<div class="videoContainer">
-		<img class="thumbnail" src="{{ '/assets/img/example-thumbnail.jpg' | relative_url }}">
-		<div class="infoContainer">
-			<span class="infoHeader">Channel</span>
-			<span class="infoText">Veritasium</span>
-			<span class="infoHeader">Date</span>
-			<span class="infoText">February 2024</span>
-			<span class="infoHeader">Views</span>
-			<span class="infoText">1,150,200</span>
-		</div>
+	<div class="top">
+		<div class="title"><span>THE</span><img class="icon" src="{{ '/assets/img/mouse.svg' | relative_url }}"><span>CLICKBAITLE</span></div>
+		<div class="ticker"><span class="issueNumber">No. 25</span><span class="description">You won't believe today's headline!</span><span class="date">Sunday, February 11, 2024<span></div>
 	</div>
-	<div class="playContainer">
-		<div class="board">
+	<div class="headlineContainer" id="headlineContainer"></div>
+	<div class="bodyContainer">
+		<div class="videoContainer">
+			<img class="thumbnail" src="{{ '/assets/img/example-thumbnail.jpg' | relative_url }}">
+			<div class="infoContainer">
+				<span class="infoHeader">Channel</span>
+				<span class="infoText">Veritasium</span>
+				<span class="infoHeader">Date</span>
+				<span class="infoText">February 2024</span>
+				<span class="infoHeader">Views</span>
+				<span class="infoText">1,150,200</span>
+			</div>
+		</div>
+		<div class="boardContainer">
 			<table class="boardTable">
 				<thead>
 					<tr>
@@ -32,113 +35,39 @@ layout: default
 						<th class="slotCol"></th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
-						<td><span class="round">(1)</span></td>
-						<td><button class="token wrong">why</button><div class="slot"></div></td>
-						<td><button class="token correct">this</button><div class="slot"></div></td>
-						<td><button class="token semiCorrect">is</button><div class="slot"></div></td>
-						<td><button class="token wrong">never</button><div class="slot"></div></td>
-						<td><button class="token wrong">really</button><div class="slot"></div></td>
-						<td><button class="token wrong">impossible</button><div class="slot"></div></td>
-					</tr>
-					<tr>
-						<td><span class="round">(2)</span></td>
-						<td><button class="token">what</button><div class="slot"></div></td>
-						<td><button class="token">this</button><div class="slot"></div></td>
-						<td><button class="token">only</button><div class="slot"></div></td>
-						<td><button class="token">is</button><div class="slot"></div></td>
-						<td><button class="token">always</button><div class="slot"></div></td>
-						<td><button class="token">scammed</button><div class="slot"></div></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-				</tbody>
 			</table>
 		</div>
-		<div class="optionsContainer">
-			<button class="token">why</button>
-			<button class="token">impossible</button>
-			<button class="token">this</button>
-			<button class="token">is</button>
-			<button class="token">never</button>
-			<button class="token">I</button>
-			<button class="token">accidentally</button>
-			<button class="token">the</button>
-			<button class="token">biggest</button>
-			<button class="token">rate</button>
-			<button class="token">illegal</button>
-			<button class="token">expensive</button>
-			<button class="token">we</button>
-			<button class="token">mistake</button>
-			<button class="token">scam</button>
-			<button class="token">prank</button>
-			<button class="token">finally</button>
-			<button class="token">every</button>
-			<button class="token">ruined</button>
-			<button class="token">to</button>
-			<button class="token">survive</button>
-			<button class="token">you</button>
-			<button class="token">only</button>
-			<button class="token">pretend</button>
-			<button class="token">secretly</button>
-			<button class="token">world's</button>
-			<button class="token">rich</button>
-			<button class="token">deadliest</button>
-			<button class="token">real</button>
-			<button class="token">addicted</button>
-		</div>
+	</div>
+	<div class="optionsContainer">
+		<button class="token" onclick="selectToken(this)">why</button>
+		<button class="token" onclick="selectToken(this)">impossible</button>
+		<button class="token" onclick="selectToken(this)">this</button>
+		<button class="token" onclick="selectToken(this)">is</button>
+		<button class="token" onclick="selectToken(this)">never</button>
+		<button class="token" onclick="selectToken(this)">I</button>
+		<button class="token" onclick="selectToken(this)">accidentally</button>
+		<button class="token" onclick="selectToken(this)">the</button>
+		<button class="token" onclick="selectToken(this)">biggest</button>
+		<button class="token" onclick="selectToken(this)">rate</button>
+		<button class="token" onclick="selectToken(this)">illegal</button>
+		<button class="token" onclick="selectToken(this)">expensive</button>
+		<button class="token" onclick="selectToken(this)">we</button>
+		<button class="token" onclick="selectToken(this)">mistake</button>
+		<button class="token" onclick="selectToken(this)">scam</button>
+		<button class="token" onclick="selectToken(this)">prank</button>
+		<button class="token" onclick="selectToken(this)">finally</button>
+		<button class="token" onclick="selectToken(this)">every</button>
+		<button class="token" onclick="selectToken(this)">ruined</button>
+		<button class="token" onclick="selectToken(this)">to</button>
+		<button class="token" onclick="selectToken(this)">survive</button>
+		<button class="token" onclick="selectToken(this)">you</button>
+		<button class="token" onclick="selectToken(this)">only</button>
+		<button class="token" onclick="selectToken(this)">pretend</button>
+		<button class="token" onclick="selectToken(this)">secretly</button>
+		<button class="token" onclick="selectToken(this)">world's</button>
+		<button class="token" onclick="selectToken(this)">rich</button>
+		<button class="token" onclick="selectToken(this)">deadliest</button>
+		<button class="token" onclick="selectToken(this)">real</button>
+		<button class="token" onclick="selectToken(this)">addicted</button>
 	</div>
 </div>

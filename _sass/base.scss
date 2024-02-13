@@ -1,11 +1,12 @@
-$backgroundColor: #F9F7F5;
+$backgroundLightColor: #F6F8FA;
+$backgroundDarkColor: #F0F2F4;
 $lightColor: #D20000;
 $darkColor: #AF0000;
-$bodyColor: #D20000;
+$bodyColor: #222;
 $bodyFont: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
 
 body {
-	background: $backgroundColor;
+	background: $backgroundDarkColor;
 	color: $bodyColor;
 	font-family: $bodyFont;
 	display: flex;
@@ -14,6 +15,18 @@ body {
 	align-items: center;
 	height: 100dvh;
 	margin: 0;
+}
+
+.main {
+	background: $backgroundLightColor;
+	max-width: 1100px;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
 .top {
@@ -29,14 +42,23 @@ body {
 .title {
 	width: 100%;
 	height: 75%;
-	font-size: 4.6vh;
+	font-size: 4.2vh;
 	font-weight: 900;
-	color: $darkColor;
+	padding: 0.5vh 0 0 0;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	/*color: $darkColor;*/
 	font-family: Helvetica;
 	text-align: center;
-	border-bottom: 1px solid $darkColor;
+	border-bottom: medium double $bodyColor;
 	box-sizing: border-box;
 	overflow: visible;
+}
+
+.icon {
+	height: 95%;
+	padding: 0 1vh;
 }
 
 .ticker {
@@ -45,8 +67,9 @@ body {
 	width: 100%;
 	height: 25%;
 	font-size: 1.4vh;
-	padding: 0 1vh;
-	border-bottom: 1px solid $darkColor;
+	font-weight: lighter;
+	padding: 0 1.2vh;
+	border-bottom: medium double $bodyColor;
 	box-sizing: border-box;
 	overflow: visible;
 }
@@ -64,33 +87,73 @@ body {
 .date {
 	text-align: right;
 	width: 30%;
+	overflow: visible;
 }
 
-.main {
-	max-width: 1200px;
+.headlineContainer {
 	width: 100%;
-	height: 91%;
-	padding: 1.6vh 0;
+	padding: min(2vh, 2.4vw) 1%;
+	font-size: min(5.8vh, 8vw);
+	font-family: Georgia;
+	font-weight: 900;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	text-align: center;
 	box-sizing: border-box;
 }
 
-.videoContainer, .playContainer {
-	height: 100%;
+.slot {
+	flex-grow: 1;
+	min-width: 10%;
+	margin: 0.8vh 0.8%;
+	padding: 0.6vh 1.6%;
+	border-radius: 12px;
+	box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.1), inset 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+	box-sizing: border-box;
+	user-select: none;
+}
+
+.filled {
+	background-color: white;
+	cursor: pointer;
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.bodyContainer {
+	width: 100%;
+	flex-grow: 1;
+	overflow: auto;
+	display: flex;
+	flex-direction: row-reverse;
+}
+
+/* Hide the default scrollbar */
+.bodyContainer::-webkit-scrollbar {
+	width: 0;
+}
+
+.bodyContainer::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.videoContainer, .boardContainer {
 	float: left;
 	display: flex;
 	flex-direction: column;
+	padding: 0 1.5%;
+	box-sizing: border-box;
 }
 
 .videoContainer {
-	width: 28%;
-	padding: 0 2%;
-	box-sizing: border-box;
+	width: 35%;
 	justify-content: flex-start;
 	align-items: flex-start; /* Align items to the left */
 }
 
-.playContainer {
-	width: 72%;
+.boardContainer {
+	width: 65%;
 	justify-content: center;
 	align-items: center;
 	/*background-color: #fefbf8;*/
@@ -100,7 +163,7 @@ body {
 	display: block;
 	max-width: 100%;
 	max-height: 100%;
-	border-radius: 12px;
+	border-radius: 10px;
 }
 
 .infoContainer{
@@ -118,25 +181,8 @@ body {
 }
 
 .infoHeader {
-	color: $darkColor;
 	font-size: min(1.4vw, 14px);
 	font-weight: bold;
-}
-
-.board {
-	width: 100%;
-	flex-grow: 1;
-	overflow: auto;
-	box-sizing: border-box;
-}
-
-/* Hide the default scrollbar */
-.board::-webkit-scrollbar {
-	width: 0;
-}
-
-.board::-webkit-scrollbar-track {
-	background: transparent;
 }
 
 .boardTable {
@@ -157,7 +203,6 @@ body {
 }
 
 .round {
-	color: $darkColor;
 	font-size: min(1.4vw, 14px);
 	font-weight: bold;
 }
@@ -166,16 +211,9 @@ body {
 	width: 15%;
 }
 
-.slot {
-	content: "";
-	margin: auto;
-	width: 65%;
-	border-bottom: 1px solid $darkColor;
-	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-}
-
 .optionsContainer {
-	padding: 1.6vh 0 0 0;
+	width: 100%;
+	padding: 1.6vh 0;
 	box-sizing: border-box;
 	display: flex;
 	justify-content: center;
@@ -186,11 +224,11 @@ body {
 }
 
 .token {
-	color: white;
+	color: $bodyColor;
 	font-size: min(3vw, 2.2vh, 16px);
 	border: none;
 	border-radius: 30px;
-	background-color: $lightColor;
+	background-color: white;
 	padding: 0.8vh 1.6vh;
 	margin: min(1.2vw, 0.6vh);
 	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
@@ -198,7 +236,7 @@ body {
 
 .token:hover {
 	cursor: pointer;
-	background-color: $darkColor;
+	background-color: #FAFAFA;
 }
 
 .token:active {
@@ -222,15 +260,19 @@ body {
 		height: 5%;
 		flex-direction: row;
 		justify-content: left;
-		border-bottom: 1px solid $darkColor;
+		border-bottom: 1px solid $bodyColor;
 	}
 	
 	.title {
 		height: 100%;
 		font-size: 2.8vh;
 		padding: 0.4vh 2vw;
-		text-align: left;
+		justify-content: left;
 		border: none;
+	}
+	
+	.icon {
+		height: 90%;
 	}
 	
 	.ticker {
@@ -239,6 +281,7 @@ body {
 		flex-direction: column;
 		padding: 0.4vh 2vw;
 		border: none;
+		font-size: min(1.4vh, 2.4vw);
 	}
 
 	.issueNumber {
@@ -255,23 +298,24 @@ body {
 		text-align: right;
 	}
 	
-	.main {
-		height: 95%;
+	.bodyContainer {
+		flex-direction: column;
 	}
 	
-	.videoContainer, .playContainer {
+	.videoContainer, .boardContainer {
 		width: 100%;
 	}
 	
 	.videoContainer {
-		height: 20%;
-		padding: 1vh;
+		height: 18vh;
+		padding: 0 1vh;
 		flex-direction: row;
 		justify-content: left;
 	}
 	
-	.playContainer {
-		height: 80%;
+	.thumbnail {
+		max-width: 60%;
+		max-height: 100%;
 	}
 	
 	.infoContainer{
