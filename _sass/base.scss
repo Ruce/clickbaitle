@@ -3,6 +3,7 @@ $backgroundDarkColor: #F0F2F4;
 $lightColor: #D20000;
 $darkColor: #AF0000;
 $bodyColor: #222;
+$softGrey: #BEBEBE;
 $bodyFont: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
 
 body {
@@ -31,7 +32,7 @@ body {
 
 .top {
 	width: 100%;
-	height: 9%;
+	height: 10%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -41,35 +42,37 @@ body {
 
 .title {
 	width: 100%;
-	height: 75%;
+	height: 72%;
 	font-size: 4.2vh;
 	font-weight: 900;
-	padding: 0.5vh 0 0 0;
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
+	align-items: center;
 	/*color: $darkColor;*/
-	font-family: Helvetica;
+	font-family: Palatino;
 	text-align: center;
-	border-bottom: medium double $bodyColor;
+	border-bottom: 4px double $bodyColor;
 	box-sizing: border-box;
 	overflow: visible;
 }
 
 .icon {
-	height: 95%;
-	padding: 0 1vh;
+	height: 75%;
+	padding: 0 0.6vh;
 }
 
 .ticker {
 	display: flex;
 	flex-direction: row;
+	align-items: center;
 	width: 100%;
-	height: 25%;
-	font-size: 1.4vh;
+	height: 28%;
+	font-size: 1.3vh;
+	font-family: Georgia;
 	font-weight: lighter;
 	padding: 0 1.2vh;
-	border-bottom: medium double $bodyColor;
+	border-bottom: 4px double $bodyColor;
 	box-sizing: border-box;
 	overflow: visible;
 }
@@ -92,33 +95,143 @@ body {
 
 .headlineContainer {
 	width: 100%;
-	padding: min(2vh, 2.4vw) 1%;
-	font-size: min(5.8vh, 8vw);
+	padding: min(1.6vh, 2vw) 1%;
+	font-size: min(4.8vh, 6vw);
 	font-family: Georgia;
 	font-weight: 900;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 	justify-content: center;
+	align-items: center;
 	text-align: center;
 	box-sizing: border-box;
 }
 
+.clearButton {
+	position: relative;
+	width: min(4.5vh, 6vw);
+	height: min(4.5vh, 6vw);
+	background: none;
+	border: none;
+	cursor: pointer;
+	border-radius: 50%;
+	font-size: 0;
+	text-align: center;
+	user-select: none;
+}
+
+.clearButton::before,
+.clearButton::after {
+	content: "";
+	position: absolute;
+	top: 25%;
+	left: 50%;
+	width: 2px;
+	height: 50%;
+	background: $softGrey;
+}
+
+.clearButton::before {
+	transform: rotate(45deg);
+}
+
+.clearButton::after {
+	transform: rotate(-45deg);
+}
+
+.clearButton:hover {
+	opacity: 0.6;
+}
+
+.enterButton {
+	width: min(4.5vh, 6vw);
+	height: min(4.5vh, 6vw);
+	padding: min(0.9vh, 1.2vw);
+	border: none;
+	cursor: pointer;
+	background: none;
+	background-image: url('../img/enter.svg');
+	background-size: cover;
+	background-origin: content-box;
+	background-repeat: no-repeat;
+	user-select: none;
+}
+
+.enterButton:hover {
+	opacity: 0.6;
+}
+
 .slot {
+	position: relative;
 	flex-grow: 1;
+	color: transparent;
 	min-width: 10%;
-	margin: 0.8vh 0.8%;
-	padding: 0.6vh 1.6%;
-	border-radius: 12px;
+	margin: 0.5vh 0.7%;
+	padding: 0.5vh 1.9%;
+	border-radius: 120px;
 	box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.1), inset 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 	box-sizing: border-box;
 	user-select: none;
+	perspective: 200vh;
+	transform-style: preserve-3d;
 }
 
 .filled {
 	background-color: white;
 	cursor: pointer;
 	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.correct {
+	background-color: green;
+}
+
+.semiCorrect {
+	background-color: orange;
+}
+
+.wrong {
+	background-color: $softGrey;
+}
+
+.front, .back {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	color: $bodyColor;
+	backface-visibility: hidden;
+}
+
+.back {
+	transform: rotateX(180deg);
+	border-radius: 120px;
+	box-sizing: border-box;
+}
+
+.inner {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.animateFlip {
+	animation: flip 1s forwards;
+}
+
+@keyframes flip {
+  0% {
+    transform: rotateX(0deg);
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+  
+  100% {
+    transform: rotateX(180deg);
+	box-shadow: 0 -1px 3px 0 rgba(0, 0, 0, 0.1), 0 -1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
 }
 
 .bodyContainer {
@@ -142,12 +255,12 @@ body {
 	float: left;
 	display: flex;
 	flex-direction: column;
-	padding: 0 1.5%;
+	padding: 0 1.6%;
 	box-sizing: border-box;
 }
 
 .videoContainer {
-	width: 35%;
+	width: 33%;
 	justify-content: flex-start;
 	align-items: flex-start; /* Align items to the left */
 }
@@ -243,18 +356,6 @@ body {
 	transform: translateY(2px);
 }
 
-.correct {
-	background-color: green;
-}
-
-.semiCorrect {
-	background-color: orange;
-}
-
-.wrong {
-	background-color: #646464;
-}
-
 @media screen and (max-width: 800px) {
 	.top {
 		height: 5%;
@@ -265,20 +366,22 @@ body {
 	
 	.title {
 		height: 100%;
-		font-size: 2.8vh;
-		padding: 0.4vh 2vw;
+		font-size: 2.5vh;
+		padding: 0 1.6vw;
 		justify-content: left;
 		border: none;
 	}
 	
 	.icon {
-		height: 90%;
+		height: 70%;
+		padding: 0 0.4vh;
 	}
 	
 	.ticker {
 		height: 100%;
 		flex-grow: 1;
 		flex-direction: column;
+		justify-content: center;
 		padding: 0.4vh 2vw;
 		border: none;
 		font-size: min(1.4vh, 2.4vw);
