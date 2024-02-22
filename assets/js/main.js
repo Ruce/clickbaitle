@@ -1,3 +1,5 @@
+const blankText = '\u00A0';
+
 function initialisePage() {
 	var numSlots = 6;
 	initialiseSlots(numSlots);
@@ -11,7 +13,6 @@ function initialiseSlots(numSlots) {
 	clearButton.addEventListener('click', clearSlots);
 	headlineContainer.appendChild(clearButton);
 	
-	const blankText = '\u00A0';
 	for (let i=0; i<numSlots; i++) {
 		// HTML structure:
 		// <div class="slot">					<!-- Main container that flex grows -->
@@ -68,18 +69,26 @@ function getNextSlot() {
 	// Returns -1 if all slots are non-empty
 	const slots = getSlots();
 	for (const slot of slots) {
-		if (getSlotSpan(slot).textContent === '\u00A0') return slot;
+		if (getSlotText(slot) === blankText) return slot;
 	}
 	
 	return -1;
 }
 
-function getSlotSpan(slot) {
+function getSlotText(slot) {
 	const spans = slot.getElementsByTagName('span');
 	if (spans.length > 0) {
-		return spans[0];
+		return spans[0].textContent;
 	} else {
 		return null;
+	}
+}
+
+function updateSlotText(slot, text) {
+	// Update text in all the slot spans
+	const slotSpans = slot.getElementsByTagName('span');
+	for (const span of slotSpans) {
+		span.textContent = text;
 	}
 }
 	
@@ -89,35 +98,42 @@ function selectToken(token) {
 	
 	// Hide the token option
 	token.style.display = 'none';
-	getSlotSpan(nextSlot).textContent = token.textContent.toUpperCase();
 	
-	const faceSpans = nextSlot.getElementsByClassName('inner');
-	for (const span of faceSpans) {
-		span.textContent = token.textContent.toUpperCase();
-	}
-	
+	updateSlotText(nextSlot, token.textContent.toUpperCase())
 	nextSlot.token = token;
 	nextSlot.classList.add('filled');
 	nextSlot.addEventListener('click', removeTokenOnClick);
 }
 
+function findAncestorWithClass(element, className) {
+	let parent = element.parentElement;
+
+	while (parent && !parent.classList.contains(className)) {
+		parent = parent.parentElement;
+	}
+
+	return parent;
+}
+
 function removeTokenOnClick(event) {
-	const slot = event.target.parentNode;
+	const slot = findAncestorWithClass(event.target, 'slot');
 	removeToken(slot);
 	slot.removeEventListener('click', removeTokenOnClick);
 }
 
 function removeToken(slot) {
 	if (slot.token) {
+		updateSlotText(slot, blankText);
 		slot.classList.remove('filled');
-		getSlotSpan(slot).textContent = '\u00A0';
 		slot.token.style.display = 'block'
 		slot.token = null;
 		
+		/*
 		slot.classList.remove('correct');
 		slot.classList.remove('semiCorrect');
 		slot.classList.remove('wrong');
 		slot.classList.remove('animateFlip');
+		*/
 	}
 }
 
@@ -139,8 +155,8 @@ function submitAnswer() {
 			slot.classList.add('animateFlip');
 			
 			const backElement = slot.getElementsByClassName('back')[0];
-			const slotText = slot.token.textContent.toLowerCase();
-			if (slotText === answers[i]) {
+			const slotText = getSlotText(slot);
+			if (slotText === answers[i].toUpperCase()) {
 				// Exact match
 				backElement.classList.add('correct');
 			} else if (answers.includes(slotText)) {
