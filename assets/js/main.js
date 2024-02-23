@@ -5,10 +5,54 @@ function initialisePage() {
 	initialiseSlots(numSlots);
 }
 
+function slotAnimationStart(event) {
+	const slots = getSlots();
+	
+	 // Find the next slot to animate
+	let nextSlotIdx = slots.indexOf(event.target) + 1;
+	while (nextSlotIdx < slots.length && slots[nextSlotIdx].classList.contains('fixed')) {
+		nextSlotIdx++;
+	}
+	
+	if (nextSlotIdx < slots.length) {
+		setTimeout(() => slots[nextSlotIdx].classList.add('animateFlip'), 200);
+	} else {
+		// Last slot has been animated, do follow up
+		setTimeout(startNextRound, 1000);
+	}
+}
+
+function startNextRound() {
+	const slots = getSlots();
+	const boardContainer = document.getElementById('boardContainer');
+	for (const slot of slots) {
+		const backElement = slot.getElementsByClassName('back')[0];
+		if (backElement.classList.contains('correct') && !slot.classList.contains('fixed')) {
+			slot.classList.add('fixed');
+			slot.classList.add('roundTransition');
+			backElement.classList.add('fixed');
+			backElement.classList.add('roundTransition');
+			setTimeout(() => {
+				slot.classList.remove('roundTransition');
+				backElement.classList.remove('roundTransition');
+			}, 800);
+		}
+		
+		// Populate the history board
+		const prevToken = document.createElement('div');
+		prevToken.textContent = getSlotText(slot);
+		boardContainer.appendChild(prevToken);
+	}
+	
+	clearSlots();
+	enableButtons();
+}
+
 function initialiseSlots(numSlots) {
 	const headlineContainer = document.getElementById('headlineContainer');
 	
 	const clearButton = document.createElement('button');
+	clearButton.id = 'clearButton';
 	clearButton.classList.add('clearButton');
 	clearButton.addEventListener('click', clearSlots);
 	headlineContainer.appendChild(clearButton);
@@ -27,6 +71,7 @@ function initialiseSlots(numSlots) {
 		
 		const slotElement = document.createElement('div');
 		slotElement.classList.add('slot');
+		slotElement.addEventListener('animationstart', slotAnimationStart);
 		headlineContainer.appendChild(slotElement);
 		
 		const slotSpan = document.createElement('span');
@@ -53,6 +98,7 @@ function initialiseSlots(numSlots) {
 	}
 	
 	const enterButton = document.createElement('button');
+	enterButton.id = 'enterButton';
 	enterButton.classList.add('enterButton');
 	enterButton.addEventListener('click', submitAnswer);
 	headlineContainer.appendChild(enterButton);
@@ -64,7 +110,7 @@ function getSlots() {
 	return childElements.filter(el => el.classList.contains('slot'));
 }
 
-function getNextSlot() {
+function getNextEmptySlot() {
 	// Gets the next empty `slot` element in left-to-right order;
 	// Returns -1 if all slots are non-empty
 	const slots = getSlots();
@@ -84,6 +130,10 @@ function getSlotText(slot) {
 	}
 }
 
+function getSlotBack(slot) {
+	return slot.getElementsByClassName('back')[0];
+}
+
 function updateSlotText(slot, text) {
 	// Update text in all the slot spans
 	const slotSpans = slot.getElementsByTagName('span');
@@ -93,7 +143,7 @@ function updateSlotText(slot, text) {
 }
 	
 function selectToken(token) {
-	const nextSlot = getNextSlot();
+	const nextSlot = getNextEmptySlot();
 	if (nextSlot === -1) return; // No empty slots
 	
 	// Hide the token option
@@ -103,6 +153,8 @@ function selectToken(token) {
 	nextSlot.token = token;
 	nextSlot.classList.add('filled');
 	nextSlot.addEventListener('click', removeTokenOnClick);
+	
+	if (token.classList.contains('semiCorrect')) nextSlot.classList.add('semiCorrectTint');
 }
 
 function findAncestorWithClass(element, className) {
@@ -117,46 +169,74 @@ function findAncestorWithClass(element, className) {
 
 function removeTokenOnClick(event) {
 	const slot = findAncestorWithClass(event.target, 'slot');
-	removeToken(slot);
+	clearSlot(slot);
 	slot.removeEventListener('click', removeTokenOnClick);
 }
 
-function removeToken(slot) {
+function clearSlot(slot) {
+	if (slot.classList.contains('fixed')) return;
+	
+	const slotBack = getSlotBack(slot);
+	
 	if (slot.token) {
 		updateSlotText(slot, blankText);
-		slot.classList.remove('filled');
-		slot.token.style.display = 'block'
-		slot.token = null;
 		
-		/*
-		slot.classList.remove('correct');
-		slot.classList.remove('semiCorrect');
-		slot.classList.remove('wrong');
-		slot.classList.remove('animateFlip');
-		*/
+		if (slotBack.classList.contains('semiCorrect')) slot.token.classList.add('semiCorrect');
+		if (!slotBack.classList.contains('wrong')) slot.token.style.display = 'block';
+		slot.token = null;
 	}
+	
+	slot.classList.remove('filled');
+	slot.classList.remove('submitted');
+	slot.classList.remove('animateFlip');
+	slot.classList.remove('semiCorrectTint');
+	
+	slotBack.classList.remove('correct');
+	slotBack.classList.remove('semiCorrect');
+	slotBack.classList.remove('wrong');
 }
 
 function clearSlots() {
 	const slots = getSlots();
 	for (const slot of slots) {
-		removeToken(slot);
+		clearSlot(slot);
 	}
+}
+
+function disableButtons() {
+	document.getElementById('clearButton').disabled = true;
+	document.getElementById('enterButton').disabled = true;
+}
+
+function enableButtons() {
+	document.getElementById('clearButton').disabled = false;
+	document.getElementById('enterButton').disabled = false;
 }
 
 function submitAnswer() {
 	const answers = ['why', 'i', 'never', 'scam', 'the', 'rich'];
 	
 	// Check if all slots are filled
-	if (getNextSlot() === -1) {
+	if (getNextEmptySlot() === -1) {
+		// Temporarily disable clear/enter buttons while animating answer
+		disableButtons();
+		
+		let animationStarted = false;
 		const slots = getSlots();
 		for (let i = 0; i < slots.length; i++) {
 			const slot = slots[i];
-			slot.classList.add('animateFlip');
+			if (slot.classList.contains('fixed')) continue;
+			
+			slot.classList.add('submitted');
+			slot.removeEventListener('click', removeTokenOnClick);
+			if (!animationStarted) {
+				slot.classList.add('animateFlip'); // Start animation on the first slot. Other slots are animated by animationStart event handler
+				animationStarted = true;
+			}
 			
 			const backElement = slot.getElementsByClassName('back')[0];
-			const slotText = getSlotText(slot);
-			if (slotText === answers[i].toUpperCase()) {
+			const slotText = getSlotText(slot).toLowerCase();
+			if (slotText === answers[i]) {
 				// Exact match
 				backElement.classList.add('correct');
 			} else if (answers.includes(slotText)) {
