@@ -115,19 +115,18 @@ body {
 	float: left;
 	display: flex;
 	flex-direction: column;
+	justify-content: flex-start;
 	padding: 0 1.6%;
 	box-sizing: border-box;
 }
 
 .videoContainer {
 	width: 33%;
-	justify-content: flex-start;
 	align-items: flex-start; /* Align items to the left */
 }
 
 .boardContainer {
 	width: 65%;
-	justify-content: center;
 	align-items: center;
 	/*background-color: #fefbf8;*/
 }
@@ -184,6 +183,11 @@ body {
 	width: 15%;
 }
 
+.historyRow {
+	width: 100%;
+	display: flex;
+}
+
 .optionsContainer {
 	width: 100%;
 	padding: 1.6vh 0;
@@ -205,15 +209,19 @@ body {
 	background-color: white;
 	padding: 0.8vh 1.6vh;
 	margin: min(1.2vw, 0.6vh);
+	user-select: none;
+}
+
+.token.option {
 	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
-.token:hover {
+.token.option:hover {
 	cursor: pointer;
 	background-color: #FAFAFA;
 }
 
-.token:active {
+.token.option:active {
 	transform: translateY(2px);
 }
 
@@ -355,7 +363,7 @@ body {
 	background-color: orange;
 }
 
-.token.semiCorrect:hover {
+.option.semiCorrect:hover {
 	background-color: yellow;
 }
 

@@ -1,8 +1,26 @@
 const blankText = '\u00A0';
+var answers = [];
 
 function initialisePage() {
 	var numSlots = 6;
 	initialiseSlots(numSlots);
+	answers = retrieveAnswers();
+}
+
+function retrieveAnswers() {
+	const exampleAnswers = [
+		['why', 'i', 'never', 'scam', 'the', 'rich'],
+		['i', 'accidentally', 'ruined', 'the', 'biggest', 'prank'],
+		['we', 'pretend', 'every', 'mistake', 'is', 'real'],
+		['we', 'finally', 'ruined', 'every', 'expensive', 'scam'],
+		['every', 'prank', 'we', 'pretend', 'is', 'real'],
+		['this', 'is', 'why', 'you', 'only', 'survive'],
+		['we', 'rate', 'the', 'biggest', 'illegal', 'prank']
+	];
+	
+	selectedAnswers = exampleAnswers[Math.floor(Math.random() * exampleAnswers.length)];
+	console.log(selectedAnswers);
+	return selectedAnswers;
 }
 
 function slotAnimationStart(event) {
@@ -25,8 +43,15 @@ function slotAnimationStart(event) {
 function startNextRound() {
 	const slots = getSlots();
 	const boardContainer = document.getElementById('boardContainer');
+	
+	const historyRow = document.createElement('div');
+	historyRow.classList.add('historyRow');
+	boardContainer.appendChild(historyRow);
+	
 	for (const slot of slots) {
 		const backElement = slot.getElementsByClassName('back')[0];
+		
+		// Animate correct options
 		if (backElement.classList.contains('correct') && !slot.classList.contains('fixed')) {
 			slot.classList.add('fixed');
 			slot.classList.add('roundTransition');
@@ -39,9 +64,14 @@ function startNextRound() {
 		}
 		
 		// Populate the history board
-		const prevToken = document.createElement('div');
-		prevToken.textContent = getSlotText(slot);
-		boardContainer.appendChild(prevToken);
+		
+		const historyToken = document.createElement('div');
+		historyToken.classList.add('token');
+		historyToken.textContent = getSlotText(slot);
+		if (backElement.classList.contains('correct')) historyToken.classList.add('correct');
+		if (backElement.classList.contains('semiCorrect')) historyToken.classList.add('semiCorrect');
+		if (backElement.classList.contains('wrong')) historyToken.classList.add('wrong');
+		historyRow.appendChild(historyToken);
 	}
 	
 	clearSlots();
@@ -214,8 +244,6 @@ function enableButtons() {
 }
 
 function submitAnswer() {
-	const answers = ['why', 'i', 'never', 'scam', 'the', 'rich'];
-	
 	// Check if all slots are filled
 	if (getNextEmptySlot() === -1) {
 		// Temporarily disable clear/enter buttons while animating answer
